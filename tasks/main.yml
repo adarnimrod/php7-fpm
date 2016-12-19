@@ -4,5 +4,25 @@
 - name: Assertions
   assert:
     that:
-        - ansible_os_family in ['OpenBSD', 'Debian']
-        - ansible_distribution_release in ['6.0', 'jessie', 'trusty']
+        - ansible_os_family in php_fpm_service
+        - ansible_distribution_release in ['6.0', '5.9', 'jessie', 'trusty']
+
+- name: APT install
+  when: ansible_pkg_mgr == 'apt'
+  apt:
+      name: php5-fpm
+      state: present
+      update_cache: yes
+      cache_valid_time: 3600
+
+- name: pkg install
+  when: ansible_pkg_mgr == 'openbsd_pkg'
+  openbsd_pkg:
+      name: '{{ php_fpm_pkg_version[ansible_distribution_release] }}'
+      state: present
+
+- name: Enable service
+  service:
+      name: '{{ php_fpm_service[ansible_os_family] }}'
+      state: started
+      enabled: yes
