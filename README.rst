@@ -66,4 +66,3 @@ TODO
 - Configure pool.
 - Status page.
 - Ping page.
-- Test PHP script with Nginx.

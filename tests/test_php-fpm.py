@@ -22,3 +22,7 @@ def test_php_fpm_service(Service, SystemInfo, File):
         assert service.is_enabled
     except NotImplementedError:
         pass
+
+
+def test_phpinfo(Command):
+    'PHP Version 5' in Command('curl http://localhost/phpinfo.php').stdout

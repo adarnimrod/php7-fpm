@@ -10,4 +10,29 @@
 - hosts: all
   strategy: free
   roles:
+    - role: nginx
     - role: php-fpm
+  post_tasks:
+      - name: Install cURL
+        package:
+            name: curl
+            state: present
+
+      - name: Create html directory
+        file:
+            path: /var/www/html
+            owner: root
+            group: 0
+            mode: 0o0755
+            state: directory
+
+      - name: Add phpinfo script
+        copy:
+            content: |
+                <?php
+                phpinfo()
+                ?>
+            dest: /var/www/html/phpinfo.php
+            owner: root
+            group: 0
+            mode: 0o0644
