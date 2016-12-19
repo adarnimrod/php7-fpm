@@ -26,3 +26,13 @@ def test_php_fpm_service(Service, SystemInfo, File):
 
 def test_phpinfo(Command):
     'PHP Version 5' in Command('curl http://localhost/phpinfo.php').stdout
+
+
+def test_php_fpm_config(Command, Sudo, SystemInfo):
+    with Sudo():
+        if SystemInfo.type == 'openbsd':
+            assert Command('php-fpm-5.6 -t').rc == 0
+        elif SystemInfo.type == 'linux' and SystemInfo.distribution in [
+                'debian', 'ubuntu'
+        ]:
+            assert Command('php5-fpm -t').rc == 0
