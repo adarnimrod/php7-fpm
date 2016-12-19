@@ -59,3 +59,15 @@ Nimrod Adar, `contact me <nimrod@shore.co.il>`_ or visit my `website
 <https://www.shore.co.il/>`_. Patches are welcome via `git send-email
 <http://git-scm.com/book/en/v2/Git-Commands-Email>`_. The repository is located
 at: https://www.shore.co.il/git/.
+
+TODO
+----
+
+- Configuration directory, include file globbing.
+- Listen to TCP and Unix sockets.
+- Log to syslog.
+- Status page.
+- Ping page.
+- Flush handlers, wait for service to come up.
+- Test PHP script with Nginx.
+- Run as web server user.
