@@ -16,10 +16,12 @@ vagrant:
   platforms:
   - name: openbsd
     box: kaorimatz/openbsd-6.0-amd64
-  - name: xenial
-    box: ubuntu/xenial64
+  - name: trusty
+    box: ubuntu/trusty64
+  - name: jessie
+    box: debian/jessie64
   instances:
-  - name: example
+  - name: php-fpm
     options:
         append_platform_to_hostname: yes
   raw_config_args:
@@ -30,9 +32,17 @@ vagrant:
 
 docker:
   containers:
-  - name: example-xenial
-    image: ubuntu
-    image_version: xenial
+  - name: php-fpm-trusty
+    image: ubuntu-upstart
+    image_version: trusty
+    command: /sbin/init
+    privileged: True
+    environment:
+        DEBIAN_FRONTEND: noninteractive
+        container: docker
+  - name: php-fpm-jessie
+    image: debian
+    image_version: jessie
     command: /sbin/init
     privileged: True
     volume_mounts:

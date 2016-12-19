@@ -1,8 +1,8 @@
 ---
-# tasks file for example
+# tasks file for php-fpm
 
 - name: Assertions
   assert:
     that:
         - ansible_os_family in ['OpenBSD', 'Debian']
-        - ansible_distribution_release in ['6.0', 'xenial']
+        - ansible_distribution_release in ['6.0', 'jessie', 'trusty']

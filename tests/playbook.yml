@@ -1,13 +1,13 @@
 ---
-- hosts: example-openbsd
+- hosts: php-fpm-openbsd
   gather_facts: false
   roles: [openbsd-bootstrap]
 
-- hosts: example-xenial
+- hosts: php-fpm-xenial
   gather_facts: false
   roles: [debian-bootstrap]
 
 - hosts: all
   strategy: free
   roles:
-    - role: example
+    - role: php-fpm

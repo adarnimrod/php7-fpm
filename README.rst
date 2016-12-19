@@ -1,12 +1,10 @@
-Example
+PHP-FPM
 #######
 
-.. image:: https://travis-ci.org/adarnimrod/example.svg?branch=master
-    :target: https://travis-ci.org/adarnimrod/example
+.. image:: https://travis-ci.org/adarnimrod/php-fpm.svg?branch=master
+    :target: https://travis-ci.org/adarnimrod/php-fpm
 
-An (empty) example Ansible role complete with working tests out of the box. For
-more information read the `blog post
-<https://www.shore.co.il/blog/ansible-example-role/>`_.
+Provision PHP FastCGI (FPM).
 
 Requirements
 ------------
