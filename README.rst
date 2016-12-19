@@ -63,11 +63,7 @@ at: https://www.shore.co.il/git/.
 TODO
 ----
 
-- Configuration directory, include file globbing.
-- Listen to TCP and Unix sockets.
-- Log to syslog.
+- Configure pool.
 - Status page.
 - Ping page.
-- Flush handlers, wait for service to come up.
 - Test PHP script with Nginx.
-- Run as web server user.

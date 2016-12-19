@@ -5,7 +5,12 @@
   assert:
     that:
         - ansible_os_family in php_fpm_service
+        - ansible_os_family in php_fpm_www_user
+        - ansible_os_family in php_fpm_conf
+        - ansible_os_family in php_fpm_listen_socket
         - ansible_distribution_release in ['6.0', '5.9', 'jessie', 'trusty']
+        - ansible_os_family != 'OpenBSD' or ansible_distribution_release in php_fpm_pkg_version
+        - php_fpm_global_config is iterable
 
 - name: APT install
   when: ansible_pkg_mgr == 'apt'
@@ -21,8 +26,25 @@
       name: '{{ php_fpm_pkg_version[ansible_distribution_release] }}'
       state: present
 
+- name: Global config
+  with_dict: '{{ php_fpm_global_config }}'
+  ini_file:
+      dest: '{{ php_fpm_conf[ansible_os_family] }}'
+      section: global
+      option: '{{ item.key }}'
+      value: '{{ item.value }}'
+      state: present
+  notify:
+      - Restart PHP-FPM
+
 - name: Enable service
   service:
       name: '{{ php_fpm_service[ansible_os_family] }}'
       state: started
       enabled: yes
+
+- meta: flush_handlers
+
+- name: Wait for service to come up
+  wait_for:
+      path: '{{ php_fpm_listen_socket[ansible_os_family] }}'

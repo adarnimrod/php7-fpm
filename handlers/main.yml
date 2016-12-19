@@ -1,2 +1,7 @@
 ---
 # handlers file for php-fpm
+
+- name: Restart PHP-FPM
+  service:
+      name: '{{ php_fpm_service[ansible_os_family] }}'
+      state: restarted

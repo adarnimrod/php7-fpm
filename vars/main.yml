@@ -8,3 +8,15 @@ php_fpm_pkg_version:
 php_fpm_service:
     OpenBSD: php56_fpm
     Debian: php5-fpm
+
+php_fpm_conf:
+    OpenBSD: /etc/php-fpm.conf
+    Debian: /etc/php5/fpm/php-fpm.conf
+
+php_fpm_www_user:
+    OpenBSD: www
+    Debian: www-data
+
+php_fpm_listen_socket:
+    OpenBSD: /var/www/run/php-fpm.sock
+    Debian: /var/run/php5-fpm.sock

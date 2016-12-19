@@ -1,2 +1,5 @@
 ---
 # defaults file for php-fpm
+
+php_fpm_global_config:
+    error_log: syslog
