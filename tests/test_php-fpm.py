@@ -25,7 +25,8 @@ def test_php_fpm_service(Service, SystemInfo, File):
 
 
 def test_phpinfo(Command):
-    'PHP Version 5' in Command('curl http://localhost/phpinfo.php').stdout
+    assert 'PHP Version 5' in Command(
+        'curl http://localhost/phpinfo.php').stdout
 
 
 def test_php_fpm_config(Command, Sudo, SystemInfo):
