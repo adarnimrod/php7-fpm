@@ -3,3 +3,21 @@
 
 php_fpm_global_config:
     error_log: syslog
+    pid: '/var/run/{{ php_fpm_service[ansible_os_family] }}.pid'
+
+php_fpm_www_pool_config:
+    user: '{{ php_fpm_user[ansible_os_family] }}'
+    group: '{{ php_fpm_user[ansible_os_family] }}'
+    listen: '{{ php_fpm_listen_socket[ansible_os_family] }}'
+    listen.owner: '{{ php_fpm_user[ansible_os_family] }}'
+    listen.group: '{{ php_fpm_user[ansible_os_family] }}'
+    listen.mode: '0660'
+    pm: dynamic
+    pm.max_children: 5
+    pm.start_servers: 2
+    pm.min_spare_servers: 1
+    pm.max_spare_servers: 3
+    pm.status_path: /status
+    ping.path: /ping
+    chdir: /
+    chroot: '{{ php_fpm_chroot[ansible_os_family]|default(omit) }}'

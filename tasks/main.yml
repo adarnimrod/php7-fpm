@@ -8,9 +8,13 @@
         - ansible_os_family in php_fpm_www_user
         - ansible_os_family in php_fpm_conf
         - ansible_os_family in php_fpm_listen_socket
+        - ansible_os_family in php_fpm_validate_config
+        - ansible_os_family in php_fpm_pools_dir
+        - ansible_os_family in php_fpm_user
         - ansible_distribution_release in ['6.0', '5.9', 'jessie', 'trusty']
         - ansible_os_family != 'OpenBSD' or ansible_distribution_release in php_fpm_pkg_version
         - php_fpm_global_config is iterable
+        - php_fpm_www_pool_config is iterable
 
 - name: APT install
   when: ansible_pkg_mgr == 'apt'
@@ -26,16 +30,40 @@
       name: '{{ php_fpm_pkg_version[ansible_distribution_release] }}'
       state: present
 
+- name: Create pools directory
+  file:
+      path: '{{ php_fpm_pools_dir[ansible_os_family] }}'
+      owner: root
+      group: 0
+      mode: 0o0755
+      state: directory
+
+- name: Copy pool templates
+  with_fileglob:
+  - '{{ role_path }}/templates/php-fpm/pools/*.conf'
+  - '{{ playbook_dir }}/templates/php-fpm/pools/*.conf'
+  template:
+      src: '{{ item }}'
+      dest: '{{ php_fpm_pools_dir[ansible_os_family] }}/{{ item|basename }}'
+      owner: root
+      group: 0
+      mode: 0o0644
+  notify:
+  - Restart PHP-FPM
+
 - name: Global config
-  with_dict: '{{ php_fpm_global_config }}'
-  ini_file:
+  template:
       dest: '{{ php_fpm_conf[ansible_os_family] }}'
-      section: global
-      option: '{{ item.key }}'
-      value: '{{ item.value }}'
-      state: present
+      src: php-fpm.conf
+      owner: root
+      group: 0
+      mode: 0o0644
   notify:
       - Restart PHP-FPM
+
+- name: Verify config
+  command: '{{ php_fpm_validate_config[ansible_os_family] }}'
+  changed_when: False
 
 - name: Enable service
   service:

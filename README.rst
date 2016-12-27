@@ -4,7 +4,9 @@ PHP-FPM
 .. image:: https://travis-ci.org/adarnimrod/php-fpm.svg?branch=master
     :target: https://travis-ci.org/adarnimrod/php-fpm
 
-Provision PHP FastCGI (FPM).
+Provision PHP FastCGI (FPM). Configuration of pools is done by placing templates
+inside :code:`templates/php-fpm/pools/` either inside the role or relative to
+the playbook.
 
 Requirements
 ------------
@@ -63,6 +65,5 @@ at: https://www.shore.co.il/git/.
 TODO
 ----
 
-- Configure pool.
 - Status page.
 - Ping page.
