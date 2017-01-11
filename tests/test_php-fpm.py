@@ -37,3 +37,12 @@ def test_php_fpm_config(Command, Sudo, SystemInfo):
                 'debian', 'ubuntu'
         ]:
             assert Command('php5-fpm -t').rc == 0
+
+
+def test_php_fpm_status(Command):
+    assert 'PHP version 5' in Command(
+        'curl http://localhost/status.php').stdout
+
+
+def test_php_fpm_ping(Command):
+    assert 'pong' in Command('curl http://localhost/ping.php').stdout

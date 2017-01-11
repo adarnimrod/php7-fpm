@@ -1,5 +1,5 @@
 ---
-- hosts: php-fpm-openbsd
+- hosts: php-fpm-openbsd*
   gather_facts: false
   roles: [openbsd-bootstrap]
 
@@ -8,7 +8,6 @@
   roles: [debian-bootstrap]
 
 - hosts: all
-  strategy: free
   roles:
     - role: nginx
     - role: php-fpm
