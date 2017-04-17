@@ -11,7 +11,7 @@
         - ansible_os_family in php_fpm_validate_config
         - ansible_os_family in php_fpm_pools_dir
         - ansible_os_family in php_fpm_user
-        - ansible_distribution_release in ['6.0', '5.9', 'jessie', 'trusty']
+        - ansible_distribution_release in ['jessie', 'trusty'] or ansible_distribution_version in ['6.0']
         - ansible_os_family != 'OpenBSD' or ansible_distribution_release in php_fpm_pkg_version
         - php_fpm_global_config is iterable
         - php_fpm_www_pool_config is iterable

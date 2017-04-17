@@ -7,14 +7,15 @@ galaxy_info:
   platforms:
   - name: OpenBSD
     versions:
-    - 5.9
     - 6.0
   - name: Ubuntu
     versions:
+    - precise
     - trusty
   - name: Debian
     versions:
     - jessie
+    - wheezy
   galaxy_tags: [ php, fpm, fastcgi, http, web ]
 dependencies:
 - src: adarnimrod.php5

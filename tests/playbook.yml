@@ -1,11 +1,21 @@
 ---
 - hosts: php-fpm-openbsd*
   gather_facts: false
-  roles: [openbsd-bootstrap]
+  roles:
+      - openbsd-bootstrap
+      - role: users
+        users: []
+        users_use_sudo: True
+        users_lock_root_ssh: False
 
-- hosts: php-fpm-xenial
+- hosts: php-fpm-xenial, php-fpm-wheezy
   gather_facts: false
-  roles: [debian-bootstrap]
+  roles:
+      - debian-bootstrap
+      - role: users
+        users: []
+        users_use_sudo: True
+        users_lock_root_ssh: False
 
 - hosts: all
   roles:

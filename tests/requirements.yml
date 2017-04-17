@@ -5,3 +5,5 @@
   name: debian-bootstrap
 - src: adarnimrod.nginx
   name: nginx
+- src: adarnimrod.users
+  name: users
