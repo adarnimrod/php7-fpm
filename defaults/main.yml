@@ -20,4 +20,4 @@ php_fpm_www_pool_config:
     pm.status_path: /status.php
     ping.path: /ping.php
     chdir: /
-    chroot: '{{ php_fpm_chroot[ansible_os_family]|default(None) }}'
+    chroot: '{{ php_fpm_chroot[ansible_os_family]|default("") }}'
