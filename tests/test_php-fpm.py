@@ -1,27 +1,30 @@
 from testinfra.utils.ansible_runner import AnsibleRunner
+import json
 
 testinfra_hosts = AnsibleRunner('.molecule/ansible_inventory').get_hosts('all')
 
 
-def test_php_fpm_service(Service, SystemInfo, File):
+def test_php_fpm_service(Service, SystemInfo, File, Sudo):
     if SystemInfo.type == 'openbsd':
         service = Service('php56_fpm')
         socket = File('/var/www/run/php-fpm.sock')
         user = 'www'
-    elif SystemInfo.type == 'linux' and SystemInfo.distribution in ['debian',
-                                                                    'ubuntu']:
+    elif SystemInfo.type == 'linux' and SystemInfo.distribution in [
+            'debian', 'ubuntu'
+    ]:
         service = Service('php5-fpm')
         socket = File('/var/run/php5-fpm.sock')
         user = 'www-data'
-    assert socket.is_socket
-    assert socket.mode == 0o0660
-    assert socket.user == user
-    assert socket.group == user
-    assert service.is_running
-    try:
-        assert service.is_enabled
-    except NotImplementedError:
-        pass
+    with Sudo():
+        assert socket.is_socket
+        assert socket.mode == 0o0660
+        assert socket.user == user
+        assert socket.group == user
+        assert service.is_running
+        try:
+            assert service.is_enabled
+        except NotImplementedError:
+            pass
 
 
 def test_phpinfo(Command):
@@ -40,8 +43,10 @@ def test_php_fpm_config(Command, Sudo, SystemInfo):
 
 
 def test_php_fpm_status(Command):
-    assert 'PHP version 5' in Command(
-        'curl http://localhost/status.php').stdout
+    status = json.loads(
+        Command('curl http://localhost/status.php?json').stdout)
+    assert status['pool'] == 'www'
+    assert status['process manager'] == 'dynamic'
 
 
 def test_php_fpm_ping(Command):
