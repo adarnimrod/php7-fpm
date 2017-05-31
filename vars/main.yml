@@ -21,6 +21,9 @@ php_fpm_listen_socket:
     OpenBSD: /var/www/run/php-fpm.sock
     Debian: /var/run/php5-fpm.sock
 
+php_fpm_listen_socket_chrooted:
+    OpenBSD: run/php-fpm.sock
+
 php_fpm_validate_config:
     OpenBSD: php-fpm-5.6 -t
     Debian: php5-fpm -t
