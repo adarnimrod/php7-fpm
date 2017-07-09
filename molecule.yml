@@ -22,6 +22,8 @@ vagrant:
   platforms:
   - name: openbsd60
     box: fnichol/openbsd-6.0-i386
+  - name: xenial
+    box: ubuntu/xenial32
   - name: trusty
     box: ubuntu/trusty32
   - name: precise
