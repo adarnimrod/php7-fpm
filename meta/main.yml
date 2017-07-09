@@ -1,6 +1,6 @@
 galaxy_info:
   author: Nimrod Adar
-  description: Provision PHP FastCGI (FPM)
+  description: Provision PHP7 FastCGI (FPM)
   company: Shore technologies
   license: MIT
   min_ansible_version: 2.3
@@ -10,13 +10,11 @@ galaxy_info:
     - 6.0
   - name: Ubuntu
     versions:
-    - precise
-    - trusty
+    - xenial
   - name: Debian
     versions:
-    - jessie
-    - wheezy
+    - stretch
   galaxy_tags: [ php, fpm, fastcgi, http, web ]
 dependencies:
-- src: adarnimrod.php5
-  name: php5
+- src: adarnimrod.php7
+  name: php7

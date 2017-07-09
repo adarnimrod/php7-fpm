@@ -1,24 +1,23 @@
 ---
-# tasks file for php-fpm
+# tasks file for php7-fpm
 
 - name: Assertions
   assert:
     that:
-        - ansible_os_family in php_fpm_service
-        - ansible_os_family in php_fpm_www_user
-        - ansible_os_family in php_fpm_conf
-        - ansible_os_family in php_fpm_listen_socket
-        - ansible_os_family in php_fpm_validate_config
-        - ansible_os_family in php_fpm_pools_dir
-        - ansible_os_family in php_fpm_user
-        - ansible_distribution_release in ['precise', 'wheezy', 'jessie', 'trusty'] or ansible_distribution_version in ['6.0']
-        - php_fpm_global_config is iterable
-        - php_fpm_www_pool_config is iterable
+        - ansible_os_family in php7_fpm_service
+        - ansible_os_family in php7_fpm_conf
+        - ansible_os_family in php7_fpm_listen_socket
+        - ansible_os_family in php7_fpm_validate_config
+        - ansible_os_family in php7_fpm_pools_dir
+        - ansible_os_family in php7_fpm_user
+        - ansible_distribution_release in ['xenial', 'stretch'] or ansible_distribution_version in ['6.0']
+        - php7_fpm_global_config is iterable
+        - php7_fpm_www_pool_config is iterable
 
 - name: APT install
   when: ansible_pkg_mgr == 'apt'
   apt:
-      name: php5-fpm
+      name: php7.0-fpm
       state: present
       update_cache: yes
       cache_valid_time: 3600
@@ -26,12 +25,12 @@
 - name: pkg install
   when: ansible_pkg_mgr == 'openbsd_pkg'
   openbsd_pkg:
-      name: php-fastcgi%5.6
+      name: php-fastcgi%7.0
       state: present
 
 - name: Create pools directory
   file:
-      path: '{{ php_fpm_pools_dir[ansible_os_family] }}'
+      path: '{{ php7_fpm_pools_dir[ansible_os_family] }}'
       owner: root
       group: 0
       mode: 0o0755
@@ -39,34 +38,34 @@
 
 - name: Copy pool templates
   with_fileglob:
-  - '{{ role_path }}/templates/php-fpm/pools/*.conf'
-  - '{{ playbook_dir }}/templates/php-fpm/pools/*.conf'
+  - '{{ role_path }}/templates/php7-fpm/pools/*.conf'
+  - '{{ playbook_dir }}/templates/php7-fpm/pools/*.conf'
   template:
       src: '{{ item }}'
-      dest: '{{ php_fpm_pools_dir[ansible_os_family] }}/{{ item|basename }}'
+      dest: '{{ php7_fpm_pools_dir[ansible_os_family] }}/{{ item|basename }}'
       owner: root
       group: 0
       mode: 0o0644
   notify:
-  - Restart PHP-FPM
+  - Restart PHP7-FPM
 
 - name: Global config
   template:
-      dest: '{{ php_fpm_conf[ansible_os_family] }}'
-      src: php-fpm.conf
+      dest: '{{ php7_fpm_conf[ansible_os_family] }}'
+      src: php7-fpm.conf
       owner: root
       group: 0
       mode: 0o0644
   notify:
-      - Restart PHP-FPM
+      - Restart PHP7-FPM
 
 - name: Verify config
-  command: '{{ php_fpm_validate_config[ansible_os_family] }}'
+  command: '{{ php7_fpm_validate_config[ansible_os_family] }}'
   changed_when: False
 
 - name: Enable service
   service:
-      name: '{{ php_fpm_service[ansible_os_family] }}'
+      name: '{{ php7_fpm_service[ansible_os_family] }}'
       state: started
       enabled: yes
 
@@ -74,4 +73,4 @@
 
 - name: Wait for service to come up
   wait_for:
-      path: '{{ php_fpm_listen_socket[ansible_os_family] }}'
+      path: '{{ php7_fpm_listen_socket[ansible_os_family] }}'

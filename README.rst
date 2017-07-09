@@ -1,11 +1,11 @@
-PHP-FPM
-#######
+PHP7-FPM
+########
 
-.. image:: https://travis-ci.org/adarnimrod/php-fpm.svg?branch=master
-    :target: https://travis-ci.org/adarnimrod/php-fpm
+.. image:: https://travis-ci.org/adarnimrod/php7-fpm.svg?branch=master
+    :target: https://travis-ci.org/adarnimrod/php7-fpm
 
-Provision PHP FastCGI (FPM). Configuration of pools is done by placing templates
-inside :code:`templates/php-fpm/pools/` either inside the role or relative to
+Provision PHP7 FastCGI (FPM). Configuration of pools is done by placing templates
+inside :code:`templates/php7-fpm/pools/` either inside the role or relative to
 the playbook.
 
 Requirements

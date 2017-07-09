@@ -10,10 +10,8 @@ env:
         - VBOX_HWVIRTEX=off
     matrix:
         - TOXENV=openbsd60
-        - TOXENV=trusty
-        - TOXENV=precise
-        - &jessie TOXENV=jessie
-        - TOXENV=wheezy
+        - TOXENV=xenial
+        - &stretch TOXENV=stretch
 
 cache:
   - pip
@@ -37,6 +35,8 @@ notifications:
 
 matrix:
     fast_finish: True
+    allow_failures:
+        - env: *stretch
     include:
         - env:
             TOXENV: pre-commit

@@ -1,5 +1,5 @@
 ---
-- hosts: php-fpm-openbsd*
+- hosts: php7-fpm-openbsd*
   gather_facts: false
   roles:
       - openbsd-bootstrap
@@ -8,7 +8,7 @@
         users_use_sudo: True
         users_lock_root_ssh: False
 
-- hosts: php-fpm-xenial, php-fpm-wheezy
+- hosts: php7-fpm-xenial, php-fpm-wheezy
   gather_facts: false
   roles:
       - debian-bootstrap
@@ -20,7 +20,7 @@
 - hosts: all
   roles:
     - role: nginx
-    - role: php-fpm
+    - role: php7-fpm
   post_tasks:
       - name: Install cURL
         package:
